@@ -1,7 +1,7 @@
 <?php
-  $url = "https://partner-test.revieve.com/api/3/analyzeImage/?skintone=4&gender=male";
+  $url = "https://partner-test.revieve.com/api/3/analyzeImage";
   $image = curl_file_create('selfie.jpg','image/jpeg','selfie.jpg');
-  $data = array("image" => $image, "partner_id" => "jmlv6b2qtS");
+  $data = array("image" => $image, "partner_id" => "jmlv6b2qtS", "gender" => "female", "skintone" => 4);
   $curl = curl_init();
   $options = array(
     CURLOPT_URL => $url,
