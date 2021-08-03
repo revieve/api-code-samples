@@ -1,27 +1,32 @@
-require("dotenv").config();
-const fs = require("fs");
-const querystring = require('querystring');
-const fetch = require("node-fetch");
-const FormData = require("form-data");
+require('dotenv').config();
+const fs = require('fs');
+const fetch = require('node-fetch');
+const FormData = require('form-data');
 
 const url = process.env.API_ENDPOINT;
-const image = fs.createReadStream("selfie.jpg");
-const params = "skintone=4&gender=female";
+const image = fs.createReadStream('selfie.jpg');
 
-let data = new FormData();
-data.append("partner_id", process.env.PARTNER_ID);
-data.append("image", image);
+const data = new FormData();
+data.append('partner_id', process.env.PARTNER_ID);
+data.append('image', image);
 
-fetch(`${url}/${querystring.stringify(params)}`, {
-  method: "POST",
+// You can pass additional parameters in the url
+// i.e skintone, gender
+fetch(`${url}/?skintone=1&gender=female&components=acne,acne_visualization`, {
+  method: 'POST',
   body: data,
 })
-  .then((response) => {
-    if (response.status >= 400) {
-      throw new Error("Bad response from server");
+  .then((res) => {
+    if (res.status >= 400) {
+      throw new Error('Bad response from server');
     }
-    return response.json();
+    return res.json();
   })
-  .then((data) => {
-    console.log(data);
+  .then((res) => {
+    const [{ measurement_locations: measurements }] = res.results;
+    measurements.map((location) => {
+      const acnes = location.visualization_data.length;
+      const descr = location.description;
+      return console.log(descr, acnes);
+    });
   });

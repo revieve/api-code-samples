@@ -15,13 +15,18 @@
   <script>
     function handleChange(e) {
       const file = e.target.files[0];
-      let data = new FormData();
+      const data = new FormData();
       data.append('partner_id', 'jmlv6b2qtS');
       data.append('image', file);
-      fetch("https://partner-test.revieve.com/api/3/analyzeImage/", {
-        method: 'POST',
-        body: data
-      }).then(res => res.json()).then(data => console.log(data));
+      fetch(
+        'https://partner-test.revieve.com/api/3/analyzeImage/?skintone=1&gender=female&components=acne,acne_visualization',
+        {
+          method: 'POST',
+          body: data,
+        }
+      )
+        .then((res) => res.json())
+        .then((res) => console.log(res));
     }
   </script>
 </body>
