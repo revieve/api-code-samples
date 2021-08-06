@@ -2,19 +2,15 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 
-const url = `https://partner-test.revieve.com/api/3/analyzeImage`;
+// You can send additional data parameters with the url i.e skintone, gender, components
+// For more info https://api.revieve.com
+const url = `https://partner-test.revieve.com/api/3/analyzeImage?skintone=1&gender=female&components=acne,acne_visualization`;
 const image = fs.createReadStream('selfie.jpg');
 
-// You can pass additional data parameters with the url
-// i.e skintone, gender, components
-// for more info https://api.revieve.com
-
+// Send the partnerId and the image file in request body
 const data = new FormData();
 data.append('partner_id', `jmlv6b2qtS`);
 data.append('image', image);
-data.append('skintone', 0);
-data.append('gender', 'female');
-data.append('components', 'acne,acne_visualization');
 
 fetch(url, {
   method: 'POST',
@@ -27,13 +23,11 @@ fetch(url, {
     return res.json();
   })
   .then((res) => {
-    // because the components of acne and acne viz are passed in the body,
-    // we only get the acne info back
+    // Since components of acne, acne visualizations are passed in the url, we only get the acne info back
 
-    // measurements_locations is an array of objects where each object has
-    // a face section info i.e chin, left cheek, etc
+    // measurements_locations is an array of objects where each object has a face section info
 
-    // We get all the measurements
+    // Destructuring mesaurements_locations and renaming it to measurements to make it shorter
     const [{ measurement_locations: measurements }] = res.results;
 
     // Then we loop over all of them and print out each one along with the
@@ -45,10 +39,10 @@ fetch(url, {
       }
     );
 
-    // This prints out the table
+    // // This prints out the table
     console.table(acnes);
 
-    // We're now calculating the total number of acnes in the entire selfie
+    // // We're now calculating the total number of acnes in the entire selfie
     const allAcnes = acnes
       .map(({ acneCount }) => acneCount)
       .reduce((a, b) => a + b);
