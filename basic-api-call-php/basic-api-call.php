@@ -12,4 +12,3 @@
   curl_setopt_array($curl, $options);
   echo curl_exec($curl);
   curl_close($curl);
-?>
