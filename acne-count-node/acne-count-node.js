@@ -1,5 +1,5 @@
 const fs = require('fs');
-const fetch = require('node-fetch');
+const fetch = require('cross-fetch');
 const FormData = require('form-data');
 
 // You can send additional data parameters with the url i.e skintone, gender, components

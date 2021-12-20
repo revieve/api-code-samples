@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "form-data": "^4.0.0",
-    "node-fetch": "^3.1.0"
+    "cross-fetch": "^3.1.4",
+    "form-data": "^4.0.0"
   }
 }
